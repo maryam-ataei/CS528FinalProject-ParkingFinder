@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Build
@@ -48,37 +49,32 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var locationManager: LocationManager
     private val locationCode = 2000
-    private val locationCode1 = 2001
     private val GEOFENCE_RADIUS = 30
     private lateinit var geofenceHelper: GeofenceHelper
-    private val GEOFENCE_ID1 = "Innovation Studio"
-    private val GEOFENCE_ID2 = " Salisbury Labs"
-    //Final
+    private val GEOFENCE_ID = "WPI"
+    //NE
     // Define your destination locations globally if they are fixed and reused
-    private val innovation_studio = LatLng(42.27434765610721, -71.80862893926412)
-    private val salisbury_lab = LatLng(42.2747687040191, -71.80686306135425)
+//    private val around_wpi = LatLng(42.27384685833052, -71.80971805810996)
+    private val around_wpi = LatLng(42.27518194423656, -71.80631018556463)
     data class DirectionsResult(val routes: List<Route>)
     data class Route(val overviewPolyline: OverviewPolyline)
     data class OverviewPolyline(val points: String)
-    //NE
-    private var originLatitude: Double = 42.27500487572457
-    private var originLongitude: Double = -71.80465292116466
-    private var destinationLatitude: Double = 42.270753649568135
-    private var destinationLongitude: Double = -71.80862893926412
+    private val kaven_parking = LatLng(42.274501550567145, -71.80565160178023)
+    private val west_parking = LatLng(42.272439542070096, -71.80844729578487)
+    private val location1_title = "Kaven Parking"
+    private val location2_title = "West Parking"
+    private val apiKey = "AIzaSyASTPC3X_oKy-jnwZQtp5aA_7jHRMPDYx4" //NE
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //NE
-        // Fetching API_KEY which we wrapped
-        val apiKey = "AIzaSyASTPC3X_oKy-jnwZQtp5aA_7jHRMPDYx4"
-
         // Initializing the Places API with the help of our API_KEY
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
-        }
-        //NE
+        } //NE
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -87,42 +83,62 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         geofenceHelper = GeofenceHelper(this)
 
         //NE
-        val gd = findViewById<Button>(R.id.directions)
+        val gd = findViewById<Button>(R.id.kaven)
         gd.setOnClickListener{
             mapFragment.getMapAsync {
                 mMap = it
-                val originLocation = LatLng(originLatitude, originLongitude)
-                mMap.addMarker(MarkerOptions().position(originLocation))
-                val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
-                mMap.addMarker(MarkerOptions().position(destinationLocation))
-                val urll = getDirectionURL(originLocation, destinationLocation, apiKey)
-                GetDirection(urll).execute()
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+                mMap.clear()
+                val destinationLocation1 = kaven_parking
+                val marker = mMap.addMarker(MarkerOptions().position(destinationLocation1).title(location1_title))
+                marker?.showInfoWindow()
+                getLastKnownLocation(destinationLocation1)
             }
         }
-        //NE
 
+        val gd2 = findViewById<Button>(R.id.west)
+        gd2.setOnClickListener{
+            mapFragment.getMapAsync {
+                mMap = it
+                mMap.clear()
+                val destinationLocation2 = west_parking
+                val marker = mMap.addMarker(MarkerOptions().position(destinationLocation2).title(location2_title))
+                marker?.showInfoWindow()
+                getLastKnownLocation(destinationLocation2)
+            }
+        }//NE
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap!!
-        val originLocation = LatLng(originLatitude, originLongitude)
         mMap.clear()
-        mMap.addMarker(MarkerOptions().position(originLocation))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
-//        Mmap = googleMap
-//        val innovation_studio = LatLng(42.27434765610721, -71.80862893926412)
-//        val salisbury_lab = LatLng(42.2747687040191, -71.80686306135425)
-//        val zoom0nmap = LatLng(42.2744037458277, -71.8079081146332)
-//        Mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(zoom0nmap, 17F))
+        val zoom0nmap = LatLng(42.273844150238006, -71.80969436603154)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zoom0nmap, 15F))
+        val geofence_address = around_wpi
+        addCircle(geofence_address, GEOFENCE_RADIUS)
         getmylocation()
-//        addMarker(innovation_studio)
-//        addCircle(innovation_studio, GEOFENCE_RADIUS)
-//        addMarker(salisbury_lab)
-//        addCircle(salisbury_lab, GEOFENCE_RADIUS)
-        addGeofence(innovation_studio, GEOFENCE_RADIUS, GEOFENCE_ID1)
-        addGeofence(salisbury_lab, GEOFENCE_RADIUS, GEOFENCE_ID2)
-//        Mmap.setOnMapLongClickListener(this)
+        addGeofence(around_wpi, GEOFENCE_RADIUS, GEOFENCE_ID)
+
+        //NE
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mMap.isMyLocationEnabled = true
+        mMap.setOnMapLongClickListener(this)
+        //NE
     }
 
     //NE
@@ -161,7 +177,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
             for (i in result.indices){
                 lineoption.addAll(result[i])
                 lineoption.width(10f)
-                lineoption.color(Color.GREEN)
+                lineoption.color(Color.BLUE)
                 lineoption.geodesic(true)
             }
             mMap.addPolyline(lineoption)
@@ -220,7 +236,31 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         }
     }
 
-//    @SuppressLint("MissingSuperCall")
+    //NE
+    private fun getLastKnownLocation(latLng: LatLng) {
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationCode)
+            return
+        }
+        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationProviderClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                location?.let {
+                    var originLatitude = it.latitude
+                    var originLongitude = it.longitude
+                    val originLocation = LatLng(originLatitude, originLongitude)
+                    val destinationLocation = latLng
+//                     Now that you have the live location, fetch and draw the route
+                    val url = getDirectionURL(originLocation, destinationLocation, apiKey)
+                    GetDirection(url).execute()
+                }
+            }
+    }//NE
+
+    //    @SuppressLint("MissingSuperCall")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -238,24 +278,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
                     return
                 }
                 mMap.isMyLocationEnabled = true
-            }
-        }
-
-        if (requestCode == locationCode1) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if ((ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED) &&
-                    (ActivityCompat.checkSelfPermission(
-                        this,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED)
-                ) {
-                    return
-                }
-                Toast.makeText(this@MainActivity, "You can add geofence", Toast.LENGTH_SHORT)
-                    .show()
             }
         }
     }
@@ -301,8 +323,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         mMap.clear()
         addMarker(latLng)
         addCircle(latLng, GEOFENCE_RADIUS)
-        addGeofence(latLng, GEOFENCE_RADIUS, GEOFENCE_ID1)
-        addGeofence(latLng, GEOFENCE_RADIUS, GEOFENCE_ID2)
+        addGeofence(latLng, GEOFENCE_RADIUS, GEOFENCE_ID)
+
     }
 
 
