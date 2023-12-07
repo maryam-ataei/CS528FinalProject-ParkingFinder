@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission  android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,7 +25,7 @@
         tools:targetApi="31">
 
 <!--        MAR-->
-        <receiver android:name=".GeofenceBroadcastReceiver" android:exported="true">
+        <receiver android:name="com.example.mapview.GeofenceBroadcastReceiver" android:exported="true" android:enabled="true">
             <intent-filter>
                 <action android:name="com.example.mapview.ACTION_RECEIVE_GEOFENCE"/>
             </intent-filter>
@@ -35,7 +34,7 @@
 <!--        MAR-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}"/>
+            android:value="AIzaSyASTPC3X_oKy-jnwZQtp5aA_7jHRMPDYx4"/>
 
         <activity
             android:name=".MainActivity"

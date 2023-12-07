@@ -52,10 +52,14 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
         val geofenceTransition = geofencingEvent?.geofenceTransition
 
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL && geofenceList != null) {
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER && geofenceList != null) {
+            println("enter")
+            Toast.makeText(context?.applicationContext, "Enter Geofence", Toast.LENGTH_SHORT).show()
             for (geofence in geofenceList) {
+                println("geofence list")
                 val notificationIntent = Intent(context, MainActivity::class.java)
-                val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent,PendingIntent.FLAG_IMMUTABLE
+                )
 
                 val notification = NotificationCompat.Builder(context, "GeofenceChannel")
                     .setSmallIcon(R.drawable.ic_launcher_background) // replace with your app's icon

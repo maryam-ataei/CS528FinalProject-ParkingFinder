@@ -36,7 +36,7 @@ class GeofenceHelper(base: Context) : ContextWrapper(base) {
             return pendingIntent
         }
         val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(this, 2607, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        pendingIntent = PendingIntent.getBroadcast(this, 2607, intent, PendingIntent.FLAG_MUTABLE)
         return pendingIntent
     }
 

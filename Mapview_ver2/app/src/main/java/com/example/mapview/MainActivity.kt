@@ -2,7 +2,12 @@ package com.example.mapview
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -17,6 +22,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 //import com.google.android.gms.common.api.Response
 import com.google.android.gms.location.Geofence
@@ -26,6 +32,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -65,6 +72,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     private val location2_title = "West Parking"
     private val apiKey = "AIzaSyASTPC3X_oKy-jnwZQtp5aA_7jHRMPDYx4" //NE
 
+
+    //test notification variables
+
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder: Notification.Builder
+    private val channelId = "i.apps.notifications"
+    private val description = "Test notification"
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,19 +103,49 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         gd.setOnClickListener{
             mapFragment.getMapAsync {
                 mMap = it
-                mMap.clear()
+//                mMap.clear()
                 val destinationLocation1 = kaven_parking
                 val marker = mMap.addMarker(MarkerOptions().position(destinationLocation1).title(location1_title))
                 marker?.showInfoWindow()
                 getLastKnownLocation(destinationLocation1)
             }
+
+            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            val intent = Intent(this, afterNotification::class.java)
+            val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+
+            // checking if android version is greater than oreo(API 26) or not
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
+                notificationChannel.enableLights(true)
+                notificationChannel.lightColor = Color.GREEN
+                notificationChannel.enableVibration(false)
+                notificationManager.createNotificationChannel(notificationChannel)
+
+                builder = Notification.Builder(this, channelId)
+                    .setSmallIcon(R.drawable.ic_launcher_background) // replace with your app's icon
+                    .setContentTitle("Geofence Alert")
+                    .setContentText("You're inside the  geofence")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+            } else {
+
+                builder = Notification.Builder(this)
+                    .setSmallIcon(R.drawable.ic_launcher_background) // replace with your app's icon
+                    .setContentTitle("Geofence Alert")
+                    .setContentText("You're inside the  geofence")
+                    .setContentIntent(pendingIntent)
+            }
+            notificationManager.notify(1234, builder.build())
+
         }
 
         val gd2 = findViewById<Button>(R.id.west)
         gd2.setOnClickListener{
             mapFragment.getMapAsync {
                 mMap = it
-                mMap.clear()
+//                mMap.clear()
                 val destinationLocation2 = west_parking
                 val marker = mMap.addMarker(MarkerOptions().position(destinationLocation2).title(location2_title))
                 marker?.showInfoWindow()
