@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FirebaseP</string>
+    <string name="edit_profile">Edit the User Profile</string>
+    <string name="RatingBar1">Rate the App</string>
+    <string name="user_profile_image">User Profile Image</string>
+    <string name="change_password">Change Password <u></u></string>
+    <string-array name="dropdown_items">
+    <item>24 Hrs</item>
+    <item>Daily</item>
+    <item>Weekly</item>
+    </string-array>
+</resources>

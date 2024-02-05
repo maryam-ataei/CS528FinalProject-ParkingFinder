@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="option1_images">
+        <item>@drawable/lastday_1</item>
+        <item>@drawable/lastday_2</item>
+        <item>@drawable/lastday_3</item>
+    </array>
+
+    <array name="option2_images">
+        <item>@drawable/lastm_1</item>
+        <item>@drawable/lastm_2</item>
+        <item>@drawable/lastm_3</item>
+    </array>
+</resources>

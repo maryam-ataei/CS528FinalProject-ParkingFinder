@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
+        android:background="#1565C0"
+    android:text="User Name" />
+
+    <TextView
+        android:id="@+id/tvUserEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
+        android:background="#1E88E5"
+    android:text="User Email"/>
+
+
+
+    <TextView
+        android:id="@+id/tvUserPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
+        android:background="#90CAF9"
+    android:text="User Password"/>
+    <TextView
+        android:id="@+id/tvUserCarModel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:background="#1E88E5"
+        android:padding="8dp"
+        android:text="Car Model" />
+
+    <TextView
+        android:id="@+id/tvUserCarColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:background="#1988E5"
+        android:padding="8dp"
+        android:text="Car Color" />
+
+    <TextView
+        android:id="@+id/tvUserCarPlate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:background="#1E8805"
+        android:padding="8dp"
+        android:text="Car Plate" />
+
+    <TextView
+        android:id="@+id/tvUserCarYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:padding="8dp"
+        android:background="#1E87E5"
+        android:text="Car Year" />
+
+    <TextView
+        android:id="@+id/tvUserNickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:background="#1E83E5"
+        android:padding="8dp"
+        android:text="Nickname" />
+
+    <TextView
+        android:id="@+id/tvUserPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:background="#1E68E5"
+        android:padding="8dp"
+        android:text="Phone" />
+
+    <TextView
+        android:id="@+id/tvUserHandicapped"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:background="#1E8805"
+        android:padding="8dp"
+        android:text="Handicapped" />
+
+    <TextView
+        android:id="@+id/tvUserEV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:background="#2E88E5"
+        android:padding="8dp"
+        android:text="EV" />
+</LinearLayout>

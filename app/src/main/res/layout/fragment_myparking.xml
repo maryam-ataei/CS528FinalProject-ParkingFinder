@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/lavender"
+    tools:context=".ParkingFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Parking"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/btnUnityHallParking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unity Hall Lot"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnParking2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="West Parking Lot"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnParking3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hackfeld Parking Lot"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnParking4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rec Center Parking Lot"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>

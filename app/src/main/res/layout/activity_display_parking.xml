@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F6">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewParkings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutForButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    </LinearLayout>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/pickparkingslot"-->
+<!--        android:layout_width="267dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.055"-->
+<!--        app:srcCompat="@drawable/pick_parking_slot"-->
+<!--        android:paddingTop="30dp"-->
+<!--        android:paddingLeft="30dp"-->
+<!--        />-->
+
+    <ImageView
+        android:id="@+id/pickparkingslot"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/pick_parking_slot"
+        android:paddingTop="30dp"
+        android:paddingLeft="30dp"
+        />
+
+
+    <GridLayout
+        android:id="@+id/gridLayoutForButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:orientation="horizontal"
+        android:paddingTop="100dp"
+        >
+
+    <!-- The buttons will be added here programmatically -->
+
+</GridLayout>
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linearLayoutForButtons">
+
+    </FrameLayout>
+
+</RelativeLayout>
